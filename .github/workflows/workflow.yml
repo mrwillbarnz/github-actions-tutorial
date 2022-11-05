@@ -1,4 +1,6 @@
 name: main-workflow
+env:
+   IMAGE_REPOSITORY: mrwillbarnz/github-actions-tutorial
 
 on:
   push:
@@ -28,3 +30,21 @@ jobs:
     # Run unit tests.
     - name: Run unit tests
       run: go test -v ./...
+
+    # Build and release
+    build-and-release:
+     runs-on: ubuntu-latest
+     steps:
+       # Check out soure code.
+       - name: Check out source code.
+         uses: actions/checkout@v3
+
+    # Build and push container image.
+    - name: Build and push container image
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{}}
+        password: ${{}}
+        repository: ${{}}
+        tag_with_ref: true
+        tag_with_sha: true # sha-${GITHUB_SHA::7}
